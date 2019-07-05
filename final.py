@@ -56,7 +56,7 @@ def obstacle():
     # specified in the sonar program while collecting the data.
     frontDist=dist[5]*0.4+ dist[4]*0.2 + dist[6]*0.2 + dist[3]*0.1 + dist[7]*0.1
     rightDist=dist[0]*0.5 + dist[1]*0.3 + dist[2]*0.2
-    leftDist=dist[10]*0.5 + dist[9]*0.3] + dist[8]*0.2
+    leftDist=dist[10]*0.5 + dist[9]*0.3 + dist[8]*0.2
     flag=0
     # if no obstacle is their in front of the bot for atleast 30 cm, return
     #  flag as 1
