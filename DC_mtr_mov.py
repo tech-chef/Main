@@ -1,4 +1,4 @@
-L"""This python program controls it's output from the RPI to the L293D IC to
+"""This python program controls it's output from the RPI to the L293D IC to
 drive the DC motors accordingly as mentioned in the code."""
 import RPi.GPIO as GPIO
 import time
