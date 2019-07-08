@@ -7,9 +7,10 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
+import os
 
 
-def recordvid():
+def recordvid(vidno):
     # The duration in seconds of the video captured
     capture_duration = 5
 
@@ -17,7 +18,7 @@ def recordvid():
     cap = cv2.VideoCapture(0)
 
     fourcc = cv2.VideoWriter_fourcc(*'X264')
-    out = cv2.VideoWriter('vid.avi', fourcc, 20.0, (640, 480))
+    out = cv2.VideoWriter(f'vid{vidno}.avi', fourcc, 20.0, (640, 480))
 
     start_time = time.time()
     while(int(time.time() - start_time) < capture_duration):
@@ -34,16 +35,17 @@ def recordvid():
     cv2.destroyAllWindows()
 
 
-def send_mail():
+def send_mail(vidno):
     now = datetime.now()
+    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
     msg = MIMEMultipart()
     msg["From"] = "techchefofficial@gmail.com"
-    msg["To"] = "techchefsecurityas@gmail.com"
+    msg["To"] = "techchefsecuritas@gmail.com"
     msg["subject"] = "Intruder Alert!"
-    message = " An intruder has been noticed at {}" % now
+    message = f"An intruder has been noticed at {dt_string}"
     msg.attach(MIMEText(message, 'plain'))
-    filename = "vid.avi"
-    attachment = open("vid.avi", "rb")
+    attachment = open(
+        r"~/Desktop/MainFile/vid{no}.avi".format(no=str(vidno)), "rb")
 
     # instance of MIMEBase and named as p
     p = MIMEBase('application', 'octet-stream')
@@ -54,7 +56,8 @@ def send_mail():
     # encode into base64
     encoders.encode_base64(p)
 
-    p.add_header('Content-Disposition', "attachment; filename= {}" % filename)
+    p.add_header('Content-Disposition',
+                 f"attachment; filename= vid{vidno}.avi")
 
     # attach the instance 'p' to instance 'msg'
     msg.attach(p)
@@ -76,9 +79,10 @@ def send_mail():
 
     # terminating the session
     s.quit()
+    os.remove(f'vid{vidno}.avi')
 
 
-def Main_vid(condition):
+def Main_vid(condition, vidno):
     if not condition:
-        recordvid()
-        send_mail()
+        recordvid(vidno)
+        send_mail(vidno)
