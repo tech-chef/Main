@@ -1,7 +1,7 @@
-import DC-mtr_mov as motor
+import DC_mtr_mov as motor
 import sonar
 import time
-import WaveFrontPlanner as wave
+import WavefrontPlanner as wave
 import pigpio
 
 
@@ -28,7 +28,7 @@ def collectdata():
             dist[i]=0
         else:
             dist[i]=100
-    pi.set_servo_pulsewidth(17,0)
+     pi.set_servo_pulsewidth(17,0)
 
 '''
 def detected_object():

@@ -14,7 +14,7 @@ def recognize():
     any_face_detected = False
     any_face_recognized = False
     security_threat = False
-    filename = r'dataset\names.csv'
+    filename = r'names.csv'
 
     # names related to ids: example ==> Harshit : 1, Shaan : 2, etc.
     names = ['none']
@@ -42,7 +42,6 @@ def recognize():
 
     while True:
         ret, img =cam.read()
-        img = cv2.flip(img, -1) # Flip vertically
         gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 
         faces = faceCascade.detectMultiScale(
@@ -63,6 +62,7 @@ def recognize():
                 id = names[id]
                 confidence = "  {0}%".format(round(100 - confidence))
                 print("Welcome " + id + '\n' )
+                break
             else:
                 any_face_recognized = False
                 id = "unknown"
@@ -77,7 +77,7 @@ def recognize():
         security_threat = time.time() - start_time > 3.0 and any_face_detected == True and any_face_recognized == False
 
 
-        k = cv2.waitKey(10) & 0xff # Press 'ESC' for exiting video
+        k = cv2.waitKey(10) & 0xff # Press 'ESC' for exiting video if code does not work
         if k == 27 or any_face_recognized or security_threat:
             break
 

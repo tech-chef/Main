@@ -1,21 +1,20 @@
-import keyboard
 import Recognizer
 import sendvid
 import ReadFromFile
-import
-import
-import
+import sys
 
 count_vid = 0
 while True:
-    if keyboard.is_pressed('Esc'):
-            print("\nExiting.")
+    print("Please press q to exit or any other key to continue")
+    s = input()
+    s = s.strip()
+    if s == 'q':
             sys.exit(0)
     face_recognized = Recognizer.recognize()
-    count_vid = count_vid + 1 if not face_recognized else pass
     if face_recognized:
         continue
+    else:
+        count_vid = count_vid + 1 
     sendvid.Main_vid(face_recognized, count_vid)
-    pos = ReadFromFile.compare_file()
     #Take person to place
     #Take bot back at gate

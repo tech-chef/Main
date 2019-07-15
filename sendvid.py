@@ -15,16 +15,16 @@ def recordvid(vidno):
     capture_duration = 5
 
     # InputCamera
+    
     cap = cv2.VideoCapture(0)
 
     fourcc = cv2.VideoWriter_fourcc(*'X264')
-    out = cv2.VideoWriter(f'vid{vidno}.avi', fourcc, 20.0, (640, 480))
-
+    out = cv2.VideoWriter('vid.avi', fourcc, 20.0, (640, 480))
+    time.sleep(0.1)
     start_time = time.time()
     while(int(time.time() - start_time) < capture_duration):
         ret, frame = cap.read()
         if ret == True:
-            frame = cv2.flip(frame, 0)
             out.write(frame)
             cv2.imshow('frame', frame)
         else:
@@ -42,10 +42,10 @@ def send_mail(vidno):
     msg["From"] = "techchefofficial@gmail.com"
     msg["To"] = "techchefsecuritas@gmail.com"
     msg["subject"] = "Intruder Alert!"
-    message = f"An intruder has been noticed at {dt_string}"
+    message = "An intruder has been noticed at {a}".format(a = dt_string)
     msg.attach(MIMEText(message, 'plain'))
     attachment = open(
-        r"~/Desktop/MainFile/vid{no}.avi".format(no=str(vidno)), "rb")
+        r'/home/pi/Desktop/Main/vid.avi', "rb")
 
     # instance of MIMEBase and named as p
     p = MIMEBase('application', 'octet-stream')
@@ -57,7 +57,7 @@ def send_mail(vidno):
     encoders.encode_base64(p)
 
     p.add_header('Content-Disposition',
-                 f"attachment; filename= vid{vidno}.avi")
+                 "attachment; filename= vid{v}.avi".format(v=str(vidno)))
 
     # attach the instance 'p' to instance 'msg'
     msg.attach(p)
@@ -79,10 +79,13 @@ def send_mail(vidno):
 
     # terminating the session
     s.quit()
-    os.remove(f'vid{vidno}.avi')
 
 
 def Main_vid(condition, vidno):
     if not condition:
         recordvid(vidno)
+        time.sleep(5)
         send_mail(vidno)
+        time.sleep(5)
+        os.remove('vid.avi')
+Main_vid(False,1)
