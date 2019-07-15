@@ -36,7 +36,7 @@ def mapper():
         for row in reader:
             s = list(map(int,row))
             if (row):
-                floormap[i]=row
+                floormap[i]=s
                 i+=1
 
 
