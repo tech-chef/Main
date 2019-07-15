@@ -15,7 +15,7 @@ def recordvid(vidno):
     capture_duration = 5
 
     # InputCamera
-    
+
     cap = cv2.VideoCapture(0)
 
     fourcc = cv2.VideoWriter_fourcc(*'X264')
@@ -88,4 +88,3 @@ def Main_vid(condition, vidno):
         send_mail(vidno)
         time.sleep(5)
         os.remove('vid.avi')
-Main_vid(False,1)
